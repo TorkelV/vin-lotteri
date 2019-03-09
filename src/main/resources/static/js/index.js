@@ -96,5 +96,7 @@ var app = new Vue({
         loadTickets(){
             this.api.tickets = API.getTickets();
         }
+    },
+    created: function(){
     }
 });

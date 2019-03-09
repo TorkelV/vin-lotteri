@@ -33,9 +33,9 @@
             <p>Vipps til: {{lottery.phone}}</p>
         </section>
 
-        <section id="addTickets">
-            <label>Navn: <input type="text" v-model="newTicket.username"/></label>
-            <label>Antall: <input v-model="newTicket.amount"/></label>
+        <section id="add-tickets">
+            <label> <input placeholder="Navn" type="text" v-model="newTicket.username"/></label>
+            <label> <input placeholder="Antall" type="number" v-model="newTicket.amount"/></label>
             <button v-on:click="addTicket" class="green">Legg til lodd</button>
         </section>
         <section id="tickets">

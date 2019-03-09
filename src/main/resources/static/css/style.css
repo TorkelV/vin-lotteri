@@ -1,20 +1,49 @@
 body{
     background-color: #222;
 }
+
 *{
     margin: 0;
     padding: 0;
 }
 
+h1{
+    font-size: 50px;
+}
+
+
+
 .page {
     border-radius: 25px;
     max-width: 550px;
     display: table;
-    margin: 20px;
+    margin: 20px auto;
+    width: 100%;
     padding: 20px;
     color: white;
+    box-sizing: border-box;
     background-color: #333;
     text-align: center;
+}
+
+#lottery-info{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+#add-tickets input, #add-tickets button{
+    display:block;
+    margin: 5px auto;
+}
+
+table{
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+td{
+    padding: 5px;
+    border: 1px solid;
 }
 
 
