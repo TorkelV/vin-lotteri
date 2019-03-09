@@ -1,44 +1,27 @@
-var API = {
-    getTickets: () => {
-        let i = 0;
-        return [
-            {id: '0', name: 'Torkel', winner: false},
-            {id: '1', name: 'Helene', winner: false},
-            {id: '2', name: 'Ragnhild', winner: false},
-            {id: '', name: 'Ragnhild', winner: false},
-            {id: '', name: 'Stian', winner: false},
-            {id: '', name: 'Stian', winner: false},
-            {id: '', name: 'Norvald', winner: false},
-            {id: '', name: 'Norvald', winner: false},
-            {id: '', name: 'Norvald', winner: false},
-            {id: '', name: 'Norvald', winner: false},
-            {id: '', name: 'Norvald', winner: false},
-            {id: '', name: 'Christian', winner: false},
-            {id: '', name: 'Christian', winner: false},
-            {id: '', name: 'Christian', winner: false},
-            {id: '', name: 'Øystein', winner: false},
-            {id: '', name: 'Øystein', winner: false}
-        ].map(e => (e.id = i++, e));
+$.ajaxSetup({
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
+const API = {
+    getTickets: async function(id) {
+        return await $.get(`/lotteries/${id}/tickets`);
     },
-    addTicket: (name,amount) => {
-
+    addTicket: async function(id, userName,amount) {
+        return await $.post(`/lotteries/${id}/tickets`, JSON.stringify({
+            "userName": userName,
+            "numberOfTickets": amount
+        }));
     },
-    drawTicket: () => {
-        return {id: "1", name: "Torkel", winner: true}
+    drawTicket: async function() {
+        return {id: "1", userName: "Torkel", winner: true}
     },
-    getLottery: (id) => {
-      return {
-          id: 123,
-          price: 10,
-          phone: 94878147
-      }
+    getLottery: async function (id) {
+        return await $.get( "/lotteries/"+id).then(e=>e);
     },
-    createLottery: () => {
-      return {
-          id: 123,
-          price: 10,
-          phone: 94878147
-      }
+    createLottery: async function (phone, price) {
+        return await $.post( "/lotteries", JSON.stringify({ticketCost: price, phoneNumber: phone}));
     }
 };
 
@@ -54,19 +37,19 @@ var app = new Vue({
             phone: ""
         },
         newTicket: {
-            username: "",
+            name: "",
             amount: ""
         },
         drawing: {
             winner: "sdfsd"
         },
         api: {
-          tickets: {}
+            tickets: []
         }
     },
     computed: {
         tickets: function(){
-            return this.api.tickets.reduce((a,b)=> ((a[b.name] = a[b.name] ? ++a[b.name] : 1),a) ,{})
+            return this.api.tickets.reduce((a,b)=> ((a[b.userName] = a[b.userName] ? ++a[b.userName] : 1),a) ,{})
         }
     },
     watch: {},
@@ -79,25 +62,31 @@ var app = new Vue({
 
         },
         joinLottery: function(id){
-            this.loadTickets();
-            this.lottery = API.getLottery(id);
-            this.goToOverview();
+            API.getLottery(id).then(data=>{
+                this.lottery.id = data.lottery.id;
+                this.lottery.price = data.lottery.ticketCost;
+                this.lottery.phone = data.lottery.phoneNumber;
+                this.goToOverview();
+            });
+
         },
         goToOverview: function () {
+            this.loadTickets();
             this.state = "overview"
         },
         goToDrawing: function () {
             this.state = "drawing";
         },
         addTicket: function () {
-            API.addTicket(this.newTicket.username,this.newTicket.amount);
-            this.newTicket.username = "";
+            API.addTicket(this.lottery.id, this.newTicket.userName, this.newTicket.amount);
+            this.newTicket.userName = "";
             this.newTicket.amount = "";
         },
         startNewLottery: function () {
-            let lottery = API.createLottery(this.lottery.phone,this.lottery.price);
-            this.admin = true;
-            this.joinLottery(lottery.id);
+            API.createLottery(this.lottery.phone,this.lottery.price).then(data=>{
+                this.admin = true;
+                this.joinLottery(data.lottery.id);
+            });
         },
         drawTicket: function () {
             const winner = API.drawTicket();
@@ -106,11 +95,11 @@ var app = new Vue({
             for (let i = 10; i < 100; i++) {
                 setTimeout(() => {
                     n = ~~(Math.random() * (tickets.length));
-                    this.drawing.winner = tickets[n].name;
+                    this.drawing.winner = tickets[n].userName;
                 }, 40000 / i)
             }
             setTimeout(()=>{
-                this.drawing.winner = winner.name;
+                this.drawing.winner = winner.userName;
                 this.wColor = "f-green";
             },4200);
         },
@@ -118,7 +107,7 @@ var app = new Vue({
             //TODO: Call api to delete ticket
         },
         loadTickets(){
-            this.api.tickets = API.getTickets();
+            API.getTickets(this.lottery.id).then(data =>this.api.tickets=data.ticketList);
         }
     },
     created: function(){

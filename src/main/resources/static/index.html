@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/vue.js"></script>
+    <script src="js/jquery.js"></script>
     <title>Vinlotteri</title>
 </head>
 <body>
@@ -16,7 +17,7 @@
         <section class="start--join">
             <h2>Bli med på et lotteri</h2>
             <label><input placeholder="Lotteri id" type="text" v-model="lottery.id"/></label>
-            <button v-on:click="joinLottery" class="blue">Gå til lotteri</button>
+            <button v-on:click="joinLottery(lottery.id)" class="blue">Gå til lotteri</button>
         </section>
         <section class="start--new">
             <h2>Start nytt lotteri</h2>
@@ -35,13 +36,13 @@
         </section>
 
         <section id="add-tickets">
-            <label> <input placeholder="Navn" type="text" v-model="newTicket.username"/></label>
+            <label> <input placeholder="Navn" type="text" v-model="newTicket.userName"/></label>
             <label> <input placeholder="Antall" type="number" v-model="newTicket.amount"/></label>
             <button v-on:click="addTicket" class="green">Legg til lodd</button>
         </section>
         <section id="tickets">
-            <div class="ticket" v-for="(amount,name) in tickets">
-                <p>{{name}}</p>
+            <div class="ticket" v-for="(amount,userName) in tickets">
+                <p>{{userName}}</p>
                 <p>{{amount}}</p>
             </div>
         </section>

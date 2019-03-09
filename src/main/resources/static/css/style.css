@@ -100,9 +100,16 @@ button {
     color: #FFF;
 }
 
+.ticket {
+    box-shadow: 2px 3px 13px 1.5px rgba(0,0,0,0.3);
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10%;
+    margin: 10px;
+}
+
 .page--drawing button{
     margin-top: 10px;
-
 }
 
 #winner{
