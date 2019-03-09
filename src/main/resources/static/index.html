@@ -9,8 +9,9 @@
 </head>
 <body>
 <div id="app">
+    <h1>Vinlotteri</h1>
     <div class="page page--start" v-if="state=='start'">
-        <h1>Vinlotteri</h1>
+
         <section class="start--join">
             <h2>Bli med på et lotteri</h2>
             <label><input placeholder="Lotteri id" type="text" v-model="lottery.id"/></label>
@@ -26,7 +27,6 @@
 
 
     <div class="page page--overview" v-if="state=='overview'">
-        <h1>Vinlotteri</h1>
         <button v-if="admin" class="blue" v-on:click="goToDrawing">Gå til trekning</button>
         <section id="lottery-info">
             <p>Pris: {{lottery.price}}</p>

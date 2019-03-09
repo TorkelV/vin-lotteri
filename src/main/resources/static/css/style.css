@@ -13,7 +13,7 @@ h1{
 
 
 
-.page {
+#app {
     border-radius: 25px;
     max-width: 550px;
     display: table;
