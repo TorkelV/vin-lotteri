@@ -52,7 +52,7 @@
 
 
     <div class="page page--drawing" v-if="state=='drawing'">
-        <button class="blue" v-on:click="goToOverview()">Legg til flere lodd</button>
+        <button class="blue" v-on:click="goToOverview">Legg til flere lodd</button>
         <button v-on:click="drawTicket" class="green btn--draw">Trekk lodd</button>
         <h1 id="winner" v-bind:class="[wColor]">{{drawing.winner}}</h1>
     </div>

@@ -14,8 +14,12 @@ const API = {
             "numberOfTickets": amount
         }));
     },
-    drawTicket: async function() {
-        return {id: "1", userName: "Torkel", winner: true}
+    drawTicket: async function(id) {
+        console.log(id);
+        return await $.ajax({
+            method: "PATCH",
+            url: `/lotteries/${id}/tickets`
+        })
     },
     getLottery: async function (id) {
         return await $.get( "/lotteries/"+id).then(e=>e);
@@ -66,6 +70,7 @@ var app = new Vue({
                 this.lottery.id = data.lottery.id;
                 this.lottery.price = data.lottery.ticketCost;
                 this.lottery.phone = data.lottery.phoneNumber;
+                this.lottery.createdDate = data.lottery.createdDate;
                 this.goToOverview();
             });
 
@@ -78,7 +83,8 @@ var app = new Vue({
             this.state = "drawing";
         },
         addTicket: function () {
-            API.addTicket(this.lottery.id, this.newTicket.userName, this.newTicket.amount);
+            API.addTicket(this.lottery.id, this.newTicket.userName, this.newTicket.amount).then(()=>this.loadTickets());
+
             this.newTicket.userName = "";
             this.newTicket.amount = "";
         },
@@ -89,19 +95,27 @@ var app = new Vue({
             });
         },
         drawTicket: function () {
-            const winner = API.drawTicket();
-            this.wColor = "f-red";
-            let tickets = API.getTickets().filter(e=>!e.winner);
-            for (let i = 10; i < 100; i++) {
-                setTimeout(() => {
-                    n = ~~(Math.random() * (tickets.length));
-                    this.drawing.winner = tickets[n].userName;
-                }, 40000 / i)
-            }
-            setTimeout(()=>{
-                this.drawing.winner = winner.userName;
-                this.wColor = "f-green";
-            },4200);
+            let lotteryid = this.lottery.id;
+            console.log(lotteryid)
+            API.drawTicket(lotteryid).then(winnerWrapper =>{
+                const winner = winnerWrapper.ticket;
+                API.getTickets(lotteryid).then(data=>{
+                    this.wColor = "f-red";
+                    let tickets = data.ticketList.filter(e=>!e.winner);
+                    for (let i = 10; i < 100; i++) {
+                        setTimeout(() => {
+                            n = ~~(Math.random() * (tickets.length));
+                            this.drawing.winner = tickets[n].userName;
+                        }, 40000 / i)
+                    }
+                    setTimeout(()=>{
+                        this.drawing.winner = winner.userName;
+                        this.wColor = "f-green";
+                    },4200);
+                });
+            });
+
+
         },
         deleteTicket: function () {
             //TODO: Call api to delete ticket
@@ -111,5 +125,11 @@ var app = new Vue({
         }
     },
     created: function(){
+
+        setInterval(()=>{
+            if(typeof this.lottery.createdDate !== 'undefined'){
+                this.loadTickets();
+            }
+        },5000)
     }
 });
