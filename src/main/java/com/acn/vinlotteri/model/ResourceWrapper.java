@@ -11,5 +11,6 @@ public class ResourceWrapper {
 
     private Lottery lottery;
     private List<Ticket> ticketList;
+    private Ticket ticket;
 
 }
