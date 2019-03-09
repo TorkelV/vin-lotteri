@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -32,6 +33,7 @@ public class LotteryController {
         Lottery lotteryResult = lotteryRepository.save(Lottery.builder()
                 .phoneNumber(lottery.getPhoneNumber())
                 .ticketCost(lottery.getTicketCost())
+                .createdDate(LocalDateTime.now().toString())
                 .open(true)
                 .build());
 
@@ -66,6 +68,7 @@ public class LotteryController {
                 i -> ticketRepository.save(Ticket.builder()
                         .lotteryId(lotteryId)
                         .userName(createTicketRequest.getUserName())
+                        .createdDate(LocalDateTime.now().toString())
                         .winner(false)
                         .build())
         );
@@ -145,6 +148,5 @@ public class LotteryController {
                 .build();
 
         return new ResponseEntity<>(resourceWrapper, HttpStatus.OK);
-
     }
 }

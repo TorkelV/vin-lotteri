@@ -1,7 +1,7 @@
 package com.acn.vinlotteri.model;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
@@ -11,8 +11,12 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
-@Data
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Ticket {
 
     @Id
@@ -21,7 +25,6 @@ public class Ticket {
     private long lotteryId;
     private String userName;
     private boolean winner;
-    @CreatedDate
-    private LocalDateTime createdDate;
+    private String createdDate;
 
 }
