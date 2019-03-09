@@ -35,6 +35,14 @@
             <label>Antall: <input v-model="newTicket.amount"/></label>
             <button v-on:click="addTicket">Legg til lodd</button>
         </section>
+        <section id="tickets">
+            <table>
+                <tr v-for="(amount,name) in tickets">
+                    <td>{{name}}</td>
+                    <td>{{amount}}</td>
+                </tr>
+            </table>
+        </section>
     </div>
 
 

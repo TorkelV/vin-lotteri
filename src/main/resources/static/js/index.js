@@ -1,6 +1,22 @@
+var API = {
+    getTickets: () => {
+        let i = 0;
+        return [
+            {id: '0', name: 'Torkel', winner: false},
+            {id: '', name: 'Helene', winner: false},
+            {id: '', name: 'Ragnhild', winner: false},
+            {id: '', name: 'Ragnhild', winner: false},
+            {id: '', name: 'Stian', winner: false},
+            {id: '', name: 'Stian', winner: false},
+            {id: '', name: 'Norvald', winner: false},
+        ].map(e => (e.id = i++, e));
+    }
+};
+
 var app = new Vue({
     el: '#app',
     data: {
+        admin: false,
         state: "start",
         lottery: {
             title: "Vin lotteri",
@@ -14,10 +30,19 @@ var app = new Vue({
         },
         drawing: {
             winner: ""
+        },
+        api: {
+          tickets: {}
+        },
+        overview: {
 
         }
     },
-    computed: {},
+    computed: {
+        tickets: function(){
+            return this.api.tickets.reduce((a,b)=> ((a[b.name] = a[b.name] ? ++a[b.name] : 1),a) ,{})
+        }
+    },
     watch: {},
     methods: {
         goToStart: function () {
@@ -25,6 +50,7 @@ var app = new Vue({
 
         },
         goToOverview: function () {
+            this.loadTickets();
             this.state = "overview"
         },
         goToDrawing: function () {
@@ -35,14 +61,18 @@ var app = new Vue({
         },
         startNewLottery: function () {
             //TODO: Call API to create new lottery
+            this.admin = true;
             this.goToOverview();
         },
         drawTicket: function () {
             //TODO: call api to draw ticket
             //TODO: visualize drawing
         },
-        deleteTicket: function() {
+        deleteTicket: function () {
             //TODO: Call api to delete ticket
+        },
+        loadTickets(){
+            this.api.tickets = API.getTickets();
         }
     }
 });
