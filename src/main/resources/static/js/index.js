@@ -11,12 +11,17 @@ var app = new Vue({
         newTicket: {
             username: "",
             amount: ""
+        },
+        drawing: {
+            winner: ""
+
         }
     },
     computed: {},
     watch: {},
     methods: {
-        goToStart: function(){
+        goToStart: function () {
+            this.state = "start";
 
         },
         goToOverview: function () {
@@ -28,8 +33,16 @@ var app = new Vue({
         addTicket: function () {
             //TODO: call api to add ticket
         },
-        startNewLottery: function(){
+        startNewLottery: function () {
+            //TODO: Call API to create new lottery
             this.goToOverview();
+        },
+        drawTicket: function () {
+            //TODO: call api to draw ticket
+            //TODO: visualize drawing
+        },
+        deleteTicket: function() {
+            //TODO: Call api to delete ticket
         }
     }
 });
