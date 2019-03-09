@@ -1,6 +1,5 @@
-
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,10 +8,42 @@
     <title>Vinlotteri</title>
 </head>
 <body>
-    <div id="app">
-
-
+<div id="app">
+    <div class="page--start" v-if="state=='start'">
+        <h1>{{lottery.title}}</h1>
+        <div>
+            <label>Lotteri id: <input type="text" v-model="lottery.id"/></label>
+            <button v-on:click="goToOverview">Gå til lotteri</button>
+        </div>
+        <div>
+            <label>Telefon: <input type="text" v-model="lottery.tlf"/> </label>
+            <label>Pris: <input type="text" v-model="lottery.price"/></label>
+            <button v-on:click="startNewLottery">Nytt lotteri</button>
+        </div>
     </div>
+
+
+    <div class="page--overview" v-if="state=='overview'">
+        <h1>Vinlotteri</h1>
+        <section id="lottery-info">
+            <p>Pris: {{lottery.price}}</p>
+            <p>Vipps til: {{lottery.tlf}}</p>
+        </section>
+
+        <section id="addTickets">
+            <label>Navn: <input type="text" v-model="newTicket.username"/></label>
+            <label>Antall: <input v-model="newTicket.amount"/></label>
+            <button v-on:click="addTicket">Legg til lodd</button>
+        </section>
+    </div>
+
+
+    <div class="page--drawing" v-if="state=='drawing'">
+        <button>Trekk lodd</button>
+        <p>{{drawing.winner}}</p>
+    </div>
+
+</div>
 <script src="js/index.js"></script>
 </body>
 
