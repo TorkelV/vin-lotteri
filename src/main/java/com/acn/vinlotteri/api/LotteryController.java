@@ -1,5 +1,6 @@
 package com.acn.vinlotteri.api;
 
+import com.acn.vinlotteri.api.helper.CreateTicketRequest;
 import com.acn.vinlotteri.model.Lottery;
 import com.acn.vinlotteri.model.ResourceWrapper;
 import com.acn.vinlotteri.model.Ticket;
@@ -26,17 +27,16 @@ public class LotteryController {
     private TicketRepository ticketRepository;
 
     @PostMapping
-    public ResponseEntity<ResourceWrapper> createLottery(@RequestParam(value = "phoneNumber") String phoneNumber,
-                                                         @RequestParam(value = "ticketCost") Long ticketCost) {
+    public ResponseEntity<ResourceWrapper> createLottery(@RequestBody Lottery lottery) {
 
-        Lottery lottery = lotteryRepository.save(Lottery.builder()
-                .phoneNumber(phoneNumber)
-                .ticketCost(ticketCost)
+        Lottery lotteryResult = lotteryRepository.save(Lottery.builder()
+                .phoneNumber(lottery.getPhoneNumber())
+                .ticketCost(lottery.getTicketCost())
                 .open(true)
                 .build());
 
         ResourceWrapper resourceWrapper = ResourceWrapper.builder()
-                .lottery(lottery)
+                .lottery(lotteryResult)
                 .build();
 
         return new ResponseEntity<>(resourceWrapper, HttpStatus.OK);
@@ -60,12 +60,12 @@ public class LotteryController {
 
     @PostMapping("/{lotteryId}/tickets")
     public ResponseEntity<ResourceWrapper> createTickets(@PathVariable(value = "lotteryId") long lotteryId,
-                                                         @RequestParam(value = "userName") String userName,
-                                                         @RequestParam(value = "numberOfTickets") int numberOfTickets) {
-        IntStream.range(0, numberOfTickets).forEach(
+                                                         @RequestBody CreateTicketRequest createTicketRequest) {
+
+        IntStream.range(0, createTicketRequest.getNumberOfTickets()).forEach(
                 i -> ticketRepository.save(Ticket.builder()
                         .lotteryId(lotteryId)
-                        .userName(userName)
+                        .userName(createTicketRequest.getUserName())
                         .winner(false)
                         .build())
         );
@@ -79,9 +79,9 @@ public class LotteryController {
         return new ResponseEntity<>(resourceWrapper, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{lotteryId}/tickets")
+    @DeleteMapping("/{lotteryId}/tickets/{userName}")
     public ResponseEntity<ResourceWrapper> deleteTickets(@PathVariable(value = "lotteryId") long lotteryId,
-                                                         @RequestParam(value = "userName") String userName) {
+                                                         @PathVariable(value = "userName") String userName) {
 
         List<Ticket> ticketList = ticketRepository.findAllByLotteryIdAndUserName(lotteryId, userName);
         ticketRepository.deleteAll(ticketList);
@@ -105,9 +105,9 @@ public class LotteryController {
         return new ResponseEntity<>(resourceWrapper, HttpStatus.OK);
     }
 
-    @PutMapping("/{lotteryId}/tickets")
+    @PutMapping("/{lotteryId}/tickets/{ticketId}")
     public ResponseEntity<ResourceWrapper> resetTicket(@PathVariable(value = "lotteryId") long lotteryId,
-                                                       @RequestParam(value = "ticketId") long ticketId) {
+                                                       @PathVariable(value = "ticketId") long ticketId) {
 
         Optional<Ticket> ticket = ticketRepository.findById(ticketId);
 
@@ -148,4 +148,3 @@ public class LotteryController {
 
     }
 }
-
