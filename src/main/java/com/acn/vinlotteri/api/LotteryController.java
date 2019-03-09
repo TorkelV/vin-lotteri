@@ -128,7 +128,7 @@ public class LotteryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{lotteryId}/tickets")
+    @PatchMapping("/{lotteryId}/tickets")
     public ResponseEntity<ResourceWrapper> drawTicket(@PathVariable(value = "lotteryId") long lotteryId) {
 
         List<Ticket> ticketList = ticketRepository.findAllByLotteryIdAndWinner(lotteryId, false);
