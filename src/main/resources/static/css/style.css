@@ -36,6 +36,15 @@ h1{
     margin: 5px auto;
 }
 
+#add-tickets{
+    box-shadow: 2px 3px 13px 1.5px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    margin: 10px auto;
+    padding: 10px;
+    max-width:400px;
+    width: 100%;
+}
+
 table{
     margin: 0 auto;
     border-collapse: collapse;
