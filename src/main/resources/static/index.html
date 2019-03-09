@@ -22,7 +22,7 @@
         <section class="start--new">
             <h2>Start nytt lotteri</h2>
             <label><input placeholder="Telefon" type="text" v-model="lottery.phone"/> </label>
-            <label><input placeholder="Pris" type="text" v-model="lottery.price"/></label>
+            <label><input placeholder="Pris per lodd" type="text" v-model="lottery.price"/></label>
             <button v-on:click="startNewLottery" class="green">Start nytt lotteri</button>
         </section>
     </div>
@@ -31,7 +31,8 @@
     <div class="page page--overview" v-if="state=='overview'">
         <button v-if="admin" class="blue" v-on:click="goToDrawing">Gå til trekning</button>
         <section id="lottery-info">
-            <p>ID: {{lottery.id}}</p>
+            <p id="lottery-id-field">Lotteri id: {{lottery.id}}</p>
+            <br>
             <p>Pris: {{lottery.price}},-</p>
             <p>Vipps til: {{lottery.phone}}</p>
         </section>
