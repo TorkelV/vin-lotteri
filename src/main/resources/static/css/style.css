@@ -1,0 +1,61 @@
+body{
+    background-color: #222;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.page {
+    border-radius: 25px;
+    max-width: 550px;
+    display: table;
+    margin: 20px;
+    padding: 20px;
+    color: white;
+    background-color: #333;
+    text-align: center;
+}
+
+
+
+.start--join button, .start--join label, .start--new button{
+    display: block;
+    margin: 0 auto;
+}
+
+section{
+    margin: 50px 0;
+}
+
+
+input[type=text], input[type=number] {
+    padding: 5px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    display: inline-block;
+    padding: 7px 10px 5px 10px;
+    box-shadow: 1px 3px 2.51px rgba(0,0,0,0.3);
+    border-radius: 3px;
+    color: #FFF;
+}
+
+.green {
+    background-color: #2ECC40;
+}
+
+.red{
+    background-color: #FF4136;
+}
+
+.blue{
+    background-color: #0074D9;
+}
+

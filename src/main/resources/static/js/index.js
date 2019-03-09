@@ -3,13 +3,30 @@ var API = {
         let i = 0;
         return [
             {id: '0', name: 'Torkel', winner: false},
-            {id: '', name: 'Helene', winner: false},
-            {id: '', name: 'Ragnhild', winner: false},
+            {id: '1', name: 'Helene', winner: false},
+            {id: '2', name: 'Ragnhild', winner: false},
             {id: '', name: 'Ragnhild', winner: false},
             {id: '', name: 'Stian', winner: false},
             {id: '', name: 'Stian', winner: false},
             {id: '', name: 'Norvald', winner: false},
         ].map(e => (e.id = i++, e));
+    },
+    addTicket: (name,amount) => {
+
+    },
+    getLottery: (id) => {
+      return {
+          id: 123,
+          price: 10,
+          phone: 94878147
+      }
+    },
+    createLottery: () => {
+      return {
+          id: 123,
+          price: 10,
+          phone: 94878147
+      }
     }
 };
 
@@ -19,10 +36,9 @@ var app = new Vue({
         admin: false,
         state: "start",
         lottery: {
-            title: "Vin lotteri",
             id: "",
             price: "",
-            tlf: ""
+            phone: ""
         },
         newTicket: {
             username: "",
@@ -49,20 +65,26 @@ var app = new Vue({
             this.state = "start";
 
         },
-        goToOverview: function () {
+        joinLottery: function(id){
             this.loadTickets();
+            this.lottery = API.getLottery(id);
+            this.goToOverview();
+        },
+        goToOverview: function () {
             this.state = "overview"
         },
         goToDrawing: function () {
             this.state = "drawing";
         },
         addTicket: function () {
-            //TODO: call api to add ticket
+            API.addTicket(this.newTicket.username,this.newTicket.amount);
+            this.newTicket.username = "";
+            this.newTicket.amount = "";
         },
         startNewLottery: function () {
-            //TODO: Call API to create new lottery
+            let lottery = API.createLottery(this.lottery.phone,this.lottery.price);
             this.admin = true;
-            this.goToOverview();
+            this.joinLottery(lottery.id);
         },
         drawTicket: function () {
             //TODO: call api to draw ticket

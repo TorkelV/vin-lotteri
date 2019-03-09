@@ -4,36 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/vue.min.js"></script>
+    <script src="js/vue.js"></script>
     <title>Vinlotteri</title>
 </head>
 <body>
 <div id="app">
-    <div class="page--start" v-if="state=='start'">
-        <h1>{{lottery.title}}</h1>
-        <div>
-            <label>Lotteri id: <input type="text" v-model="lottery.id"/></label>
-            <button v-on:click="goToOverview">Gå til lotteri</button>
-        </div>
-        <div>
-            <label>Telefon: <input type="text" v-model="lottery.tlf"/> </label>
-            <label>Pris: <input type="text" v-model="lottery.price"/></label>
-            <button v-on:click="startNewLottery">Nytt lotteri</button>
-        </div>
+    <div class="page page--start" v-if="state=='start'">
+        <h1>Vinlotteri</h1>
+        <section class="start--join">
+            <h2>Bli med på et lotteri</h2>
+            <label><input placeholder="Lotteri id" type="text" v-model="lottery.id"/></label>
+            <button v-on:click="joinLottery" class="blue">Gå til lotteri</button>
+        </section>
+        <section class="start--new">
+            <h2>Start nytt lotteri</h2>
+            <label><input placeholder="Telefon" type="text" v-model="lottery.phone"/> </label>
+            <label><input placeholder="Pris" type="text" v-model="lottery.price"/></label>
+            <button v-on:click="startNewLottery" class="green">Start nytt lotteri</button>
+        </section>
     </div>
 
 
-    <div class="page--overview" v-if="state=='overview'">
+    <div class="page page--overview" v-if="state=='overview'">
         <h1>Vinlotteri</h1>
+        <button v-if="admin" class="blue" v-on:click="goToDrawing">Gå til trekning</button>
         <section id="lottery-info">
             <p>Pris: {{lottery.price}}</p>
-            <p>Vipps til: {{lottery.tlf}}</p>
+            <p>Vipps til: {{lottery.phone}}</p>
         </section>
 
         <section id="addTickets">
             <label>Navn: <input type="text" v-model="newTicket.username"/></label>
             <label>Antall: <input v-model="newTicket.amount"/></label>
-            <button v-on:click="addTicket">Legg til lodd</button>
+            <button v-on:click="addTicket" class="green">Legg til lodd</button>
         </section>
         <section id="tickets">
             <table>
@@ -46,13 +49,12 @@
     </div>
 
 
-    <div class="page--drawing" v-if="state=='drawing'">
-        <button>Trekk lodd</button>
+    <div class="page page--drawing" v-if="state=='drawing'">
+        <button class="green">Trekk lodd</button>
         <p>{{drawing.winner}}</p>
     </div>
 
 </div>
 <script src="js/index.js"></script>
 </body>
-
 </html>
