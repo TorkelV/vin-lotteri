@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,8 +50,8 @@
 
 
     <div class="page page--drawing" v-if="state=='drawing'">
-        <button class="green">Trekk lodd</button>
-        <p>{{drawing.winner}}</p>
+        <button v-on:click="drawTicket" class="green">Trekk lodd</button>
+        <h1 v-bind:class="[wColor]">{{drawing.winner}}</h1>
     </div>
 
 </div>

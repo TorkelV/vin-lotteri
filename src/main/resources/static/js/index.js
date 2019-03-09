@@ -14,6 +14,9 @@ var API = {
     addTicket: (name,amount) => {
 
     },
+    drawTicket: () => {
+        return {id: "1", name: "Torkel", winner: true}
+    },
     getLottery: (id) => {
       return {
           id: 123,
@@ -35,6 +38,7 @@ var app = new Vue({
     data: {
         admin: false,
         state: "start",
+        wColor: 'f-red',
         lottery: {
             id: "",
             price: "",
@@ -45,7 +49,7 @@ var app = new Vue({
             amount: ""
         },
         drawing: {
-            winner: ""
+            winner: "sdfsd"
         },
         api: {
           tickets: {}
@@ -61,6 +65,9 @@ var app = new Vue({
     },
     watch: {},
     methods: {
+        visualizeDrawing: function() {
+            let winner = API.getWinner();
+        },
         goToStart: function () {
             this.state = "start";
 
@@ -87,8 +94,19 @@ var app = new Vue({
             this.joinLottery(lottery.id);
         },
         drawTicket: function () {
-            //TODO: call api to draw ticket
-            //TODO: visualize drawing
+            const winner = API.drawTicket();
+            this.wColor = "f-red";
+            let tickets = API.getTickets().filter(e=>!e.winner);
+            for (let i = 10; i < 100; i++) {
+                setTimeout(() => {
+                    n = ~~(Math.random() * (tickets.length));
+                    this.drawing.winner = tickets[n].name;
+                }, 40000 / i)
+            }
+            setTimeout(()=>{
+                this.drawing.winner = winner.name;
+                this.wColor = "f-green";
+            },4200);
         },
         deleteTicket: function () {
             //TODO: Call api to delete ticket

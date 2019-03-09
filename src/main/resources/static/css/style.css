@@ -46,6 +46,13 @@ td{
     border: 1px solid;
 }
 
+.f-green{
+    color: #2ECC40;
+}
+
+.f-red{
+    color: #FF4136;
+}
 
 
 .start--join button, .start--join label, .start--new button{
