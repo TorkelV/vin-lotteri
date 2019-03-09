@@ -9,5 +9,4 @@ public class VinlotteriApplication {
     public static void main(String[] args) {
         SpringApplication.run(VinlotteriApplication.class, args);
     }
-
 }
