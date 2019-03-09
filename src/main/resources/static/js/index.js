@@ -4,6 +4,8 @@ $.ajaxSetup({
         'Accept': 'application/json'
     }
 });
+
+
 const API = {
     getTickets: async function(id) {
         return await $.get(`/lotteries/${id}/tickets`);
@@ -15,7 +17,6 @@ const API = {
         }));
     },
     drawTicket: async function(id) {
-        console.log(id);
         return await $.ajax({
             method: "PATCH",
             url: `/lotteries/${id}/tickets`
@@ -84,7 +85,7 @@ var app = new Vue({
         },
         addTicket: function () {
             API.addTicket(this.lottery.id, this.newTicket.userName, this.newTicket.amount).then(()=>this.loadTickets());
-
+            this.$refs.username.focus();
             this.newTicket.userName = "";
             this.newTicket.amount = "";
         },
@@ -96,7 +97,6 @@ var app = new Vue({
         },
         drawTicket: function () {
             let lotteryid = this.lottery.id;
-            console.log(lotteryid)
             API.drawTicket(lotteryid).then(winnerWrapper =>{
                 const winner = winnerWrapper.ticket;
                 API.getTickets(lotteryid).then(data=>{
@@ -125,7 +125,12 @@ var app = new Vue({
         }
     },
     created: function(){
-
+        let cursor = 0;
+        const KONAMI_CODE = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        document.addEventListener('keydown', (e) => {
+            cursor = (e.keyCode == KONAMI_CODE[cursor]) ? cursor + 1 : 0;
+            if (cursor == KONAMI_CODE.length) this.admin=true;
+        });
         setInterval(()=>{
             if(typeof this.lottery.createdDate !== 'undefined'){
                 this.loadTickets();

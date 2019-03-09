@@ -16,13 +16,13 @@
 
         <section class="start--join">
             <h2>Bli med på et lotteri</h2>
-            <label><input placeholder="Lotteri id" type="text" v-model="lottery.id"/></label>
+            <label><input v-on:keydown.enter="joinLottery(lottery.id)" placeholder="Lotteri id" type="text" v-model="lottery.id"/></label>
             <button v-on:click="joinLottery(lottery.id)" class="blue">Gå til lotteri</button>
         </section>
         <section class="start--new">
             <h2>Start nytt lotteri</h2>
             <label><input placeholder="Telefon" type="text" v-model="lottery.phone"/> </label>
-            <label><input placeholder="Pris per lodd" type="text" v-model="lottery.price"/></label>
+            <label><input v-on:keydown.enter="startNewLottery" placeholder="Pris per lodd" type="text" v-model="lottery.price"/></label>
             <button v-on:click="startNewLottery" class="green">Start nytt lotteri</button>
         </section>
     </div>
@@ -38,8 +38,8 @@
         </section>
 
         <section id="add-tickets">
-            <label> <input placeholder="Navn" type="text" v-model="newTicket.userName"/></label>
-            <label> <input placeholder="Antall" type="number" v-model="newTicket.amount"/></label>
+            <label> <input ref="username" v-on:keydown.enter="addTicket" placeholder="Navn" type="text" v-model="newTicket.userName"/></label>
+            <label> <input v-on:keydown.enter="addTicket" placeholder="Antall" type="number" v-model="newTicket.amount"/></label>
             <button v-on:click="addTicket" class="green">Legg til lodd</button>
         </section>
         <section id="tickets">
