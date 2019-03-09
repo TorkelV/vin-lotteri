@@ -45,14 +45,21 @@ h1{
     width: 100%;
 }
 
-table{
+#tickets{
     margin: 0 auto;
-    border-collapse: collapse;
 }
 
-td{
-    padding: 5px;
-    border: 1px solid;
+.ticket p{
+    font-size: 1.2em;
+}
+
+.ticket{
+    background-color: #333;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10%;
+    margin: 8px;
+    box-shadow: 2px 3px 13px 1.5px rgba(0,0,0,0.3);
 }
 
 .f-green{

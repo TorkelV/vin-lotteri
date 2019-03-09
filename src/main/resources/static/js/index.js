@@ -9,6 +9,15 @@ var API = {
             {id: '', name: 'Stian', winner: false},
             {id: '', name: 'Stian', winner: false},
             {id: '', name: 'Norvald', winner: false},
+            {id: '', name: 'Norvald', winner: false},
+            {id: '', name: 'Norvald', winner: false},
+            {id: '', name: 'Norvald', winner: false},
+            {id: '', name: 'Norvald', winner: false},
+            {id: '', name: 'Christian', winner: false},
+            {id: '', name: 'Christian', winner: false},
+            {id: '', name: 'Christian', winner: false},
+            {id: '', name: 'Øystein', winner: false},
+            {id: '', name: 'Øystein', winner: false}
         ].map(e => (e.id = i++, e));
     },
     addTicket: (name,amount) => {
@@ -53,9 +62,6 @@ var app = new Vue({
         },
         api: {
           tickets: {}
-        },
-        overview: {
-
         }
     },
     computed: {
