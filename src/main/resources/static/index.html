@@ -31,7 +31,7 @@
     <div class="page page--overview" v-if="state=='overview'">
         <button v-if="admin" class="blue" v-on:click="goToDrawing">Gå til trekning</button>
         <section id="lottery-info">
-            <p>ID: {lottery.id}}</p>
+            <p>ID: {{lottery.id}}</p>
             <p>Pris: {{lottery.price}},-</p>
             <p>Vipps til: {{lottery.phone}}</p>
         </section>
