@@ -1,7 +1,35 @@
 var app = new Vue({
     el: '#app',
-    data: {},
+    data: {
+        state: "start",
+        lottery: {
+            title: "Vin lotteri",
+            id: "",
+            price: "",
+            tlf: ""
+        },
+        newTicket: {
+            username: "",
+            amount: ""
+        }
+    },
     computed: {},
     watch: {},
-    methods: {}
+    methods: {
+        goToStart: function(){
+
+        },
+        goToOverview: function () {
+            this.state = "overview"
+        },
+        goToDrawing: function () {
+            this.state = "drawing";
+        },
+        addTicket: function () {
+            //TODO: call api to add ticket
+        },
+        startNewLottery: function(){
+            this.goToOverview();
+        }
+    }
 });
