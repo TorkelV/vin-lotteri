@@ -13,9 +13,8 @@ h1{
 
 img{
     height: 100px;
+    margin-bottom: 25px;
 }
-
-
 
 #app {
     border-radius: 25px;
@@ -40,7 +39,11 @@ img{
     margin: 5px auto;
 }
 
-#add-tickets{
+.start--join{
+    font-size: 20px;
+}
+
+#add-tickets, .start--join{
     box-shadow: 2px 3px 13px 1.5px rgba(0,0,0,0.3);
     border-radius: 10px;
     margin: 10px auto;
@@ -49,21 +52,14 @@ img{
     width: 100%;
 }
 
-#tickets{
+table{
     margin: 0 auto;
+    border-collapse: collapse;
 }
 
-.ticket p{
-    font-size: 1.2em;
-}
-
-.ticket{
-    background-color: #333;
-    display: inline-block;
-    padding: 10px;
-    border-radius: 10%;
-    margin: 8px;
-    box-shadow: 2px 3px 13px 1.5px rgba(0,0,0,0.3);
+td{
+    padding: 5px;
+    border: 1px solid;
 }
 
 .f-green{
