@@ -1,6 +1,5 @@
 $.ajaxSetup({
     headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
 });
@@ -8,25 +7,19 @@ $.ajaxSetup({
 
 const API = {
     getTickets: async function(id) {
-        return await $.get(`/lotteries/${id}/tickets`);
+        return JSON.parse(await $.post("api/index.php", {f: "getTickets", "id": id}).then(e=>e));
     },
     addTicket: async function(id, userName,amount) {
-        return await $.post(`/lotteries/${id}/tickets`, JSON.stringify({
-            "userName": userName,
-            "numberOfTickets": amount
-        }));
+        return JSON.parse(await $.post(`api/index.php`, {f: "createTickets","id": id,"userName": userName,"numberOfTickets": amount}).then(e=>e));
     },
     drawTicket: async function(id) {
-        return await $.ajax({
-            method: "PATCH",
-            url: `/lotteries/${id}/tickets`
-        })
+        return JSON.parse(await $.post("api/index.php", {f: "drawTicket", "id": id}).then(e=>e));
     },
     getLottery: async function (id) {
-        return await $.get( "/lotteries/"+id).then(e=>e);
+        return JSON.parse(await $.post("api/index.php", {f: "getLottery", "id": id}).then(e=>e));
     },
     createLottery: async function (phone, price) {
-        return await $.post( "/lotteries", JSON.stringify({ticketCost: price, phoneNumber: phone}));
+        return JSON.parse(await $.post( "api/index.php", {f: "createLottery", ticketCost: price, phoneNumber: phone}).then(e=>e));
     }
 };
 
@@ -67,6 +60,7 @@ var app = new Vue({
 
         },
         joinLottery: function(id){
+            console.log("joinLottery");
             API.getLottery(id).then(data=>{
                 this.lottery.id = data.lottery.id;
                 this.lottery.price = data.lottery.ticketCost;
@@ -77,8 +71,11 @@ var app = new Vue({
 
         },
         goToOverview: function () {
+            console.log("go to overview")
+
             this.loadTickets();
-            this.state = "overview"
+            this.state = "overview";
+
         },
         goToDrawing: function () {
             this.state = "drawing";
@@ -91,6 +88,7 @@ var app = new Vue({
         },
         startNewLottery: function () {
             API.createLottery(this.lottery.phone,this.lottery.price).then(data=>{
+                console.log(data);
                 this.admin = true;
                 this.joinLottery(data.lottery.id);
             });
@@ -101,7 +99,7 @@ var app = new Vue({
                 const winner = winnerWrapper.ticket;
                 API.getTickets(lotteryid).then(data=>{
                     this.wColor = "f-red";
-                    let tickets = data.ticketList.filter(e=>!e.winner);
+                    let tickets = data.ticketList.filter(e=>e.winner!="0");
                     for (let i = 10; i < 100; i++) {
                         setTimeout(() => {
                             n = ~~(Math.random() * (tickets.length));
